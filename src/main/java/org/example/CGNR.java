@@ -1,97 +1,72 @@
 package org.example;
 
 import no.uib.cipr.matrix.*;
-import no.uib.cipr.matrix.sparse.CompRowMatrix;
 
 public class CGNR {
     /*
-        g - Vetor de sinal
-        H - Matriz de modelo
-        f - Imagem
+        g - Vetor de sinal = Entrada que o cliente envia
+        H - Matriz de modelo = Entrada fixa no servidor, tem dois modelos um de 60x60 e outro de 30x30
+        f - Imagem = Saída
         S - Número de amostras do sinal
         N - Número de elementos sensores
     */
 
-    public void CGNRCalc(Vector vetorSinal, Matrix matrizModelo, int S, int N) {
+    /*
+        g = Vector
+        h = Matrix
+        S = int
+        N = int
+        f = Matrix
+     */
 
-//        // Initialize other variables
-//        Matrix imagem = new DenseMatrix(matrizModelo.numRows() ,matrizModelo.numColumns());
-//
-//        Matrix tempResult = matrizModelo.scale(-imagem.get(0,0));
-//
-//        Matrix r = vetorSinal.add(1, tempResult);
-//
-//        Vector z = (Vector) multiply(matrizModelo.transpose(), new DenseMatrix(r));
-//
-//        Vector p = new DenseVector(z);
-//
-//        double epsilon = 1e-4;
-//        double[] w = new double[matrizModelo.numColumns()];
-//        double[] a = new double[matrizModelo.numColumns()];
-//        double[] b = new double[matrizModelo.numColumns()];
-//
-//        double e = r.dot(r) - r.dot(r);
-//        int i = 0;
-//
-//        while (e < epsilon) {
-//            matrizModelo.mult(r, z);
-//            a[i] = z.dot(z) / matrizModelo.mult(p, w);
-//            imagem = imagem.add(p.scale(a[i]));
-//            r = r.add(w, -a[i]);
-//            matrizModelo.transMult(r, z);
-//            b[i] = z.dot(z) / z.dot(z);
-//            p = z.add(p.scale(b[i]));
-//
-//            // Check convergence
-//            e = r.dot(r) - r.dot(r);
-//
-//            i++;
-//        }
+    public void CGNRCalc(Vector g, Matrix h, int S, int N) {
+
+        // f = 0
+        Matrix f = new DenseMatrix(h.numColumns(), 1);
+        f.zero();
+
+        // r = g - H*f
+        Matrix Hf = new DenseMatrix(h.numRows(), f.numColumns());
+        h.mult(f, Hf);
+        Matrix r = new DenseMatrix(Hf.numRows(), Hf.numColumns());
+        r.set(Hf);
+        r.add(-1.0, Hf);
+        Matrix rm1 = new DenseMatrix(Hf.numRows(), Hf.numColumns());
+        rm1.zero();
+
+        // z = (hˆt)*r
+        Matrix z = new DenseMatrix(h.numColumns(), r.numColumns());
+        h.transAmult(r, z);
+        Matrix zm1 = new DenseMatrix(h.numColumns(), r.numColumns());
+        zm1.zero();
+
+        // p = z
+        Matrix p = new DenseMatrix(z.numRows(), z.numColumns());
+        p.set(z);
+        Matrix pm1 = new DenseMatrix(z.numRows(), z.numColumns());
+        pm1.zero();
+
+        int i;
+
+        Matrix w = new DenseMatrix(h.numRows(), p.numColumns());
+        double a = 0;
+        double b = 0;
+
+        for (i = 0; i < 5; i++) {
+            // w = H * p[i]
+            h.mult(p, w);
+            // a[i] = norm2(z[i]) / norm2(w[i])
+            double zNorm = z.norm(Matrix.Norm.Frobenius);
+            double wNorm = w.norm(Matrix.Norm.Frobenius);
+            a = zNorm / wNorm;
+            i++;
+            // f[i+1] = f[i] + (a[i] * p[i])
+            // r[i+1] = r[i] + (a[i] * w[i])
+            // z[i+1] = H^t * r[i+1]
+            // b[i] = norm2(z[i+1]) / norm2(z[i])
+            // p[i+1] = z[i+1] + b[i] * p[i]
+
+        }
     }
 
-    public void calc2(Vector vetorSinal, Matrix matrizModelo, int S, int N) {
-//        // Define the parameters and matrices
-//        Matrix A = new DenseMatrix(/* Initialize A here */); // Symmetric positive-definite matrix
-//        Vector b = new DenseVector(/* Initialize b here */);   // Right-hand side vector
-//
-//        int maxIterations = 100; // Maximum number of iterations
-//        double tolerance = 1e-6; // Convergence tolerance
-//
-//        int n = A.numColumns();  // Size of the system
-//        Vector x = new DenseVector(n); // Initial guess for the solution
-//        Vector r = new DenseVector(b); // Initial residual
-//
-//        Vector p = new DenseVector(r); // Initial search direction
-//
-//        // Main iteration loop
-//        for (int k = 0; k < maxIterations; k++) {
-//            Vector Ap = new DenseVector(n);
-//            A.mult(p, Ap);
-//            double alpha = r.dot(r) / p.dot(Ap);
-//            x.add(alpha, p);
-//            r.add(-alpha, Ap);
-//
-//            // Check for convergence
-//            if (r.norm(Vector.Norm.Two) < tolerance) {
-//                System.out.println("Converged after " + (k + 1) + " iterations.");
-//                break;
-//            }
-//
-//            double beta = r.dot(r) / r.dot(Ap);
-//            p = r.add(beta, p);
-//        }
-//
-//        // Print the final solution
-//        System.out.println("Solution x: " + x);
-    }
-
-    private Matrix multiply(Matrix x, Matrix y) {
-        DenseMatrix res = new DenseMatrix(x.numRows(),y.numColumns());
-        return x.mult(y,res);
-    }
-
-    private Matrix multiply(Matrix x, DenseMatrix y) {
-        DenseMatrix res = new DenseMatrix(x.numRows(),y.numRows());
-        return x.mult(y,res);
-    }
 }

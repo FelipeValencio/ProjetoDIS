@@ -19,11 +19,13 @@ public class Main {
 
         FileResourcesUtils files = new FileResourcesUtils();
 
-        // Define the parameters and matrices
-        Vector vetorSinal = files.importVectorFromCsv("G-1.csv", ';');
-        Matrix matrizModelo = files.importMatrixFromCsv("H-1.csv", ',');
+        // Vem do cliente
+        Vector vetorSinal = files.importVectorFromCsv("g-30x30-1.csv", ';');
 
-        int S = 794;
+        //Hardcoded no servidor
+        Matrix matrizModelo = files.importMatrixFromCsv("H-2.csv", ',');
+
+        int S = 436;
         int N = 64;
 
         CGNR calcs = new CGNR();
