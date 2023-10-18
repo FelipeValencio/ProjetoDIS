@@ -2,6 +2,10 @@ package org.example;
 
 import no.uib.cipr.matrix.*;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class CGNR {
     /*
         g - Vetor de sinal = Entrada que o cliente envia
@@ -21,26 +25,18 @@ public class CGNR {
      */
 
     public void CGNRCalc(Vector g, Matrix h, int S, int N) {
-
         // f = 0
-        Matrix f = new DenseMatrix(h.numColumns(), 1);
+        Vector f = new DenseVector(h.numColumns());
         f.zero();
-        Matrix fm1 = new DenseMatrix(h.numColumns(), 1);
+        Vector fm1 = new DenseVector(h.numColumns());
         fm1.zero();
 
         // r = g - H*f
-        Matrix Hf = new DenseMatrix(h.numRows(), f.numColumns());
+        Vector Hf = new DenseVector(h.numRows());
         h.mult(f, Hf);
         Vector r = new DenseVector(g.size());
-        // Perform element-wise subtraction
-        for (int i = 0; i < Hf.numRows(); i++) {
-            for (int j = 0; j < Hf.numColumns(); j++) {
-                if(i >= 81) {
-                    System.out.println("ds");
-                }
-                r.set(i, g.get(i) - Hf.get(i, j));
-            }
-        }
+        r.set(g);
+        r.add(-1.0, Hf);
         Vector rm1 = new DenseVector(r.size());
         rm1.zero();
 
@@ -74,11 +70,7 @@ public class CGNR {
             ap.set(p);
             ap.scale(a);
             fm1.set(f);
-            for (int j = 0; j < fm1.numColumns(); j++) {
-                for (int k = 0; k < fm1.numRows(); k++) {
-                    fm1.add(k, j, ap.get(j));
-                }
-            }
+            fm1.add(ap);
 
             // r[i+1] = r[i] + (a * w[i])
             rm1.set(w);
@@ -103,6 +95,38 @@ public class CGNR {
             z.set(zm1);
             f.set(fm1);
             r.set(rm1);
+        }
+
+        System.out.println("cabo");
+        // Loop through the matrix and print the elements
+        exportToCSV(f);
+
+        GrayscaleImageConverter imageConverter = new GrayscaleImageConverter(f, h.numColumns());
+
+        imageConverter.saveImage();
+    }
+
+    void exportToCSV(Vector vector) {
+        // Define the file path where you want to export the matrix
+        String filePath = "matrix_data.csv";
+
+        try {
+            // Create a BufferedWriter to write to the file
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+
+            for (int i = 0; i < vector.size(); i++) {
+                    writer.write(String.valueOf(vector.get(i)));
+                    writer.write(",");
+                // Move to the next row
+                writer.write("\n");
+            }
+
+            // Close the writer when done
+            writer.close();
+
+            System.out.println("Matrix exported to " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

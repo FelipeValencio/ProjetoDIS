@@ -18,10 +18,10 @@ public class Main {
         FileResourcesUtils files = new FileResourcesUtils();
 
         // Vem do cliente
-        Vector vetorSinal = files.importVectorFromCsv("g-30x30-1.csv", ';');
+        Vector vetorSinal = files.importVectorFromCsv("G-1.csv", ';');
 
         //Hardcoded no servidor
-        Matrix matrizModelo = files.importMatrixFromCsv("H-2.csv", ',');
+        Matrix matrizModelo = files.importMatrixFromCsv("H-1.csv", ',');
 
         int S = 436;
         int N = 64;
