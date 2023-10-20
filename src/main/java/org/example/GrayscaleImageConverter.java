@@ -37,7 +37,7 @@ public class GrayscaleImageConverter {
                 int grayValue = (int) (255 * (value - min) / (max - min));
 
                 // Set the grayscale pixel value
-                ((WritableRaster) raster).setSample(x, y, 0, grayValue);
+                raster.setSample(x, y, 0, grayValue);
             }
         }
 
@@ -48,7 +48,7 @@ public class GrayscaleImageConverter {
         int originalWidth = originalImage.getWidth();
         int originalHeight = originalImage.getHeight();
 
-        BufferedImage rotatedImage = new BufferedImage(originalHeight, originalWidth, originalImage.getType());
+        BufferedImage rotatedImage = new BufferedImage(originalWidth, originalHeight, originalImage.getType());
         Graphics2D g2d = rotatedImage.createGraphics();
 
         AffineTransform at = new AffineTransform();
@@ -65,7 +65,7 @@ public class GrayscaleImageConverter {
     private void saveGrayscaleImage(BufferedImage image) {
         try {
             ImageIO.write(image, "png", new File("grayscale_image.png"));
-            System.out.println("Image saved as " + "grayscale_image.png");
+            System.out.println("Image saved as " + "grayscale_imagexom.png");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,7 +76,6 @@ public class GrayscaleImageConverter {
 
         BufferedImage rotatedImage = rotateImage90Degrees(grayscaleImage);
 
-        // Save the rotated grayscale image as a PNG file...
         saveGrayscaleImage(rotatedImage);
     }
 

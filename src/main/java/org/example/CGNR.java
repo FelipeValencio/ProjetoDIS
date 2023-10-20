@@ -56,7 +56,7 @@ public class CGNR {
         double a;
         double b;
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             // w = H * p[i]
             h.mult(p, w);
 
