@@ -2,7 +2,7 @@ package org.example;
 
 import no.uib.cipr.matrix.*;
 
-public class CGNR {
+public class CGNE {
     /*
         g - Vetor de sinal = Entrada que o cliente envia
         H - Matriz de modelo = Entrada fixa no servidor, tem dois modelos um de 60x60 e outro de 30x30
@@ -20,7 +20,7 @@ public class CGNR {
         p = Vector
      */
 
-    public void CGNRCalc(Vector g, Matrix h, int S, int N) {
+    public void CGNECalc(Vector g, Matrix h, int S, int N) {
         // f = 0
         Vector f = new DenseVector(h.numColumns());
         f.zero();
@@ -36,34 +36,21 @@ public class CGNR {
         Vector rm1 = new DenseVector(r.size());
         rm1.zero();
 
-        // z = (hˆt) * r
-        Vector z = new DenseVector(h.numColumns());
-        h.transMult(r, z);
-        Vector zm1 = new DenseVector(z.size());
-        zm1.zero();
-
-        // p = z
-        Vector p = new DenseVector(z.size());
-        p.set(z);
+        // p = (hˆt) * r
+        Vector p = new DenseVector(h.numColumns());
+        h.transMult(r, p);
         Vector pm1 = new DenseVector(p.size());
         pm1.zero();
 
-        Vector w = new DenseVector(h.numRows());
         double a;
         double b;
-        double zNorm;
-        double wNorm;
-        double zm1Norm;
+        Vector ahp = new DenseVector(h.numRows());
         Vector ap = new DenseVector(p.size());
 
         for (int i = 0; i < 3; i++) {
-            // w = H * p[i]
-            h.mult(p, w);
 
-            // a = norm2(z[i]) / norm2(w[i])
-            zNorm = z.norm(Vector.Norm.Two);
-            wNorm = w.norm(Vector.Norm.Two);
-            a = zNorm / wNorm;
+            //a = ( (r^t) * r ) / ( (p^t) * p )
+            a = ( r.dot(r) ) / ( p.dot(p) );
 
             // f[i+1] = f[i] + (a * p[i])
             ap.set(p);
@@ -71,27 +58,21 @@ public class CGNR {
             fm1.set(f);
             fm1.add(ap);
 
-            // r[i+1] = r[i] + (a * w[i])
-            rm1.set(w);
-            rm1.scale(a);
-            rm1.add(1, r);
+            // r[i+1] = r[i] - (a * (H*p))
+            h.mult(p, ahp);
+            ahp.scale(a);
+            rm1.set(r);
+            rm1.add(-1, ahp);
 
-            // z[i+1] = H^t * r[i+1]
-            h.transMult(rm1, zm1);
+            //b = ( (r[i+1]^t) * r[i+1] ) / ( (r^t) * r )
+            b = ( rm1.dot(rm1) ) / ( r.dot(r) );
 
-            // b = norm2(z[i+1]) / norm2(z[i])
-            zm1Norm = zm1.norm(Vector.Norm.Two);
-            zNorm = z.norm(Vector.Norm.Two);
-            b = zm1Norm / zNorm;
-
-            // p[i+1] = z[i+1] + (b * p[i])
-            pm1.set(p);
-            pm1.scale(b);
-            pm1.add(1, zm1);
+            // p[i+1] = H^t * r[i+1] + (b * p[i])
+            h.transMult(rm1, pm1);
+            pm1.add(p.scale(b));
 
             // Atualizar valores i+1
             p.set(pm1);
-            z.set(zm1);
             f.set(fm1);
             r.set(rm1);
         }
@@ -104,4 +85,5 @@ public class CGNR {
 
         imageConverter.saveImage();
     }
+
 }

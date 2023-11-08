@@ -15,6 +15,30 @@ import java.util.ArrayList;
 
 public class FileResourcesUtils {
 
+    public static void exportToCSV(Vector vector) {
+        // Define the file path where you want to export the matrix
+        String filePath = "matrix_data.csv";
+
+        try {
+            // Create a BufferedWriter to write to the file
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+
+            for (int i = 0; i < vector.size(); i++) {
+                writer.write(String.valueOf(vector.get(i)));
+                writer.write(",");
+                // Move to the next row
+                writer.write("\n");
+            }
+
+            // Close the writer when done
+            writer.close();
+
+            System.out.println("Matrix exported to " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public @NotNull Matrix importMatrixFromCsv(String fileName, char separator) throws FileNotFoundException {
         ArrayList<ArrayList<Double>> matrix = new ArrayList<>();
 
