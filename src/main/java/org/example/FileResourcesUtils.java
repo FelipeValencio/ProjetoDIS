@@ -72,7 +72,7 @@ public class FileResourcesUtils {
         return new DenseMatrix(matrixArray);
     }
 
-    public @NotNull Vector importVectorFromCsv(String fileName, char separator) throws FileNotFoundException {
+    public @NotNull double[] importVectorFromCsv(String fileName, char separator) throws FileNotFoundException {
         ArrayList<Double> vector = new ArrayList<>();
 
         try {
@@ -85,9 +85,7 @@ public class FileResourcesUtils {
                 }
             }
 
-            double[] vectorArray = convertToDoubleArray(vector);
-
-            return new DenseVector(vectorArray);
+            return convertToDoubleArray(vector);
 
         } catch (CsvValidationException | IOException e) {
             throw new RuntimeException(e);

@@ -3,13 +3,13 @@ option java_multiple_files = true;
 package org.example.grpc;
 
 message VetorSinal {
-  string vetorSinal = 1;
+  repeated double vetorSinal = 1;
   double s = 2;
   double n = 3;
 }
 
 message ImagemProcessada {
-  string imagemProcessada = 1;
+  repeated double imagemProcessada = 1;
 }
 
 service ProcessamentoImagemService {

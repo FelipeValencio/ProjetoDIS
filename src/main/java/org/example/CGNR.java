@@ -21,6 +21,8 @@ public class CGNR {
      */
 
     public void CGNRCalc(Vector g, Matrix h, int S, int N) {
+
+        System.out.println("calc");
         // f = 0
         Vector f = new DenseVector(h.numColumns());
         f.zero();
@@ -57,6 +59,7 @@ public class CGNR {
         Vector ap = new DenseVector(p.size());
 
         for (int i = 0; i < 3; i++) {
+            System.out.println("for");
             // w = H * p[i]
             h.mult(p, w);
 

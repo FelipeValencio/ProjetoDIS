@@ -8,6 +8,7 @@ import org.example.grpc.ProcessamentoImagemServiceGrpc;
 import org.example.grpc.VetorSinal;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 public class Cliente {
     public static void main(String[] args) {
@@ -20,18 +21,26 @@ public class Cliente {
 
         FileResourcesUtils files = new FileResourcesUtils();
         // Vem do cliente
+        double[] vetorSinal;
         try {
             // Achar melhor forma de como mandar esse dado para servidor e converter para Vector
-            Vector vetorSinal = files.importVectorFromCsv("G-1.csv", ';');
+            vetorSinal = files.importVectorFromCsv("g-30x30-1.csv", ';');
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
-        ImagemProcessada imagemProcessada = stub.processarImagem(VetorSinal.newBuilder()
-                .setVetorSinal("teste")
-                .setS(1)
-                .setN(2)
-                .build());
+        VetorSinal.Builder vetorSinalBuilder = VetorSinal.newBuilder();
+
+        // Add all elements from the existing array to the repeated field
+        Double[] objectArray = Arrays.stream(vetorSinal).boxed().toArray(Double[]::new);
+        vetorSinalBuilder.addAllVetorSinal(Arrays.asList(objectArray));
+
+        // Set values for other fields
+        vetorSinalBuilder.setS(4.0);
+        vetorSinalBuilder.setN(5.0);
+
+
+        ImagemProcessada imagemProcessada = stub.processarImagem(vetorSinalBuilder.build());
 
         channel.shutdown();
     }

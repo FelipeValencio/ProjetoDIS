@@ -15,24 +15,24 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
 //        runTestesBasicos();
 
-        FileResourcesUtils files = new FileResourcesUtils();
-
-        // Vem do cliente
-        Vector vetorSinal = files.importVectorFromCsv("G-1.csv", ';');
-
-        //Hardcoded no servidor
-        Matrix matrizModelo = files.importMatrixFromCsv("H-1.csv", ',');
-
-        int S = 436;
-        int N = 64;
-
-//        CGNR calcs = new CGNR();
+//        FileResourcesUtils files = new FileResourcesUtils();
 //
-//        calcs.CGNRCalc(vetorSinal, matrizModelo, S, N);
-
-        CGNE calcsCgne = new CGNE();
-
-        calcsCgne.CGNECalc(vetorSinal, matrizModelo, S, N);
+//        // Vem do cliente
+//        double[] vetorSinal = files.importVectorFromCsv("G-1.csv", ';');
+//
+//        //Hardcoded no servidor
+//        Matrix matrizModelo = files.importMatrixFromCsv("H-1.csv", ',');
+//
+//        int S = 436;
+//        int N = 64;
+//
+////        CGNR calcs = new CGNR();
+////
+////        calcs.CGNRCalc(vetorSinal, matrizModelo, S, N);
+//
+//        CGNE calcsCgne = new CGNE();
+//
+//        calcsCgne.CGNECalc(vetorSinal, matrizModelo, S, N);
     }
 
 }
