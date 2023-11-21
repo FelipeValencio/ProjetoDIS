@@ -1,4 +1,4 @@
-package org.example;
+package org.example.shared;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
@@ -12,10 +12,11 @@ import org.jetbrains.annotations.NotNull;
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FileResourcesUtils {
 
-    public static void exportToCSV(Vector vector) {
+    public static void exportToCSV(List<Double> vector) {
         // Define the file path where you want to export the matrix
         String filePath = "matrix_data.csv";
 
@@ -23,8 +24,8 @@ public class FileResourcesUtils {
             // Create a BufferedWriter to write to the file
             BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
 
-            for (int i = 0; i < vector.size(); i++) {
-                writer.write(String.valueOf(vector.get(i)));
+            for (double v : vector) {
+                writer.write(String.valueOf(v));
                 writer.write(",");
                 // Move to the next row
                 writer.write("\n");
@@ -72,7 +73,7 @@ public class FileResourcesUtils {
         return new DenseMatrix(matrixArray);
     }
 
-    public @NotNull double[] importVectorFromCsv(String fileName, char separator) throws FileNotFoundException {
+    public double @NotNull [] importVectorFromCsv(String fileName, char separator) throws FileNotFoundException {
         ArrayList<Double> vector = new ArrayList<>();
 
         try {

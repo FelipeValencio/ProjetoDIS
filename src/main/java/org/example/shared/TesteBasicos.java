@@ -1,7 +1,8 @@
-package org.example;
+package org.example.shared;
 
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.Matrix;
+import org.example.shared.FileResourcesUtils;
 
 import java.io.FileNotFoundException;
 

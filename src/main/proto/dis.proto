@@ -1,4 +1,7 @@
 syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
 option java_multiple_files = true;
 package org.example.grpc;
 
@@ -6,10 +9,18 @@ message VetorSinal {
   repeated double vetorSinal = 1;
   double s = 2;
   double n = 3;
+  string idUsuario = 4;
+  string algoritmo = 5;
 }
 
 message ImagemProcessada {
-  repeated double imagemProcessada = 1;
+  repeated double imagem = 1;
+  string idUsuario = 2;
+  string algoritmo = 3;
+  google.protobuf.Timestamp inicio = 4;
+  google.protobuf.Timestamp termino = 5;
+  double tamanho = 6;
+  double interacoes = 7;
 }
 
 service ProcessamentoImagemService {

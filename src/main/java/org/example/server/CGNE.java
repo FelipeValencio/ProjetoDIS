@@ -1,6 +1,7 @@
-package org.example;
+package org.example.server;
 
 import no.uib.cipr.matrix.*;
+import org.example.grpc.ImagemProcessada;
 
 public class CGNE {
     /*
@@ -20,7 +21,7 @@ public class CGNE {
         p = Vector
      */
 
-    public void CGNECalc(Vector g, Matrix h, int S, int N) {
+    public Vector CGNECalc(Vector g, Matrix h, int S, int N, ImagemProcessada.Builder imagemProcessadaBuilder) {
         // f = 0
         Vector f = new DenseVector(h.numColumns());
         f.zero();
@@ -47,10 +48,11 @@ public class CGNE {
         Vector ahp = new DenseVector(h.numRows());
         Vector ap = new DenseVector(p.size());
 
-        for (int i = 0; i < 3; i++) {
+        int i;
+        for (i = 0; i < 3; i++) {
 
             //a = ( (r^t) * r ) / ( (p^t) * p )
-            a = ( r.dot(r) ) / ( p.dot(p) );
+            a = (r.dot(r)) / (p.dot(p));
 
             // f[i+1] = f[i] + (a * p[i])
             ap.set(p);
@@ -65,7 +67,7 @@ public class CGNE {
             rm1.add(-1, ahp);
 
             //b = ( (r[i+1]^t) * r[i+1] ) / ( (r^t) * r )
-            b = ( rm1.dot(rm1) ) / ( r.dot(r) );
+            b = (rm1.dot(rm1)) / (r.dot(r));
 
             // p[i+1] = H^t * r[i+1] + (b * p[i])
             h.transMult(rm1, pm1);
@@ -77,13 +79,10 @@ public class CGNE {
             r.set(rm1);
         }
 
+        imagemProcessadaBuilder.setInteracoes(i);
+
         System.out.println("cabo");
-        // Loop through the matrix and print the elements
-        FileResourcesUtils.exportToCSV(f);
-
-        GrayscaleImageConverter imageConverter = new GrayscaleImageConverter(f, h.numColumns());
-
-        imageConverter.saveImage();
+        return f;
     }
 
 }
