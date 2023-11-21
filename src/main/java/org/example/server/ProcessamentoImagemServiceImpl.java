@@ -1,5 +1,6 @@
 package org.example.server;
 
+import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Matrix;
@@ -8,7 +9,6 @@ import no.uib.cipr.matrix.VectorEntry;
 import org.example.grpc.ImagemProcessada;
 import org.example.grpc.ProcessamentoImagemServiceGrpc;
 import org.example.grpc.VetorSinal;
-import org.example.server.CGNR;
 import org.example.shared.FileResourcesUtils;
 
 import java.io.FileNotFoundException;
@@ -19,6 +19,9 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
     @Override
     public void processarImagem(VetorSinal request, StreamObserver<ImagemProcessada> responseObserver) {
 
+        ImagemProcessada.Builder imagemProcessadaBuilder = ImagemProcessada.newBuilder();
+        final Timestamp ts1 = Timestamp.newBuilder().setSeconds(System.currentTimeMillis() / 1000).build();
+        imagemProcessadaBuilder.setInicio(ts1);
 
         FileResourcesUtils files = new FileResourcesUtils();
         Matrix matrizModelo = null;
@@ -28,18 +31,30 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
             throw new RuntimeException(e);
         }
 
-        CGNR calcs = new CGNR();
+        CGNR cgnr = new CGNR();
+        CGNE cgne = new CGNE();
 
         double[] doubleArray = request.getVetorSinalList().stream().mapToDouble(Double::doubleValue).toArray();
 
         Vector vetorSinal = new DenseVector(doubleArray);
+        Vector result;
 
-        Vector result = calcs.CGNRCalc(vetorSinal, matrizModelo, (int) request.getS(), (int) request.getN());
-        
+        if(request.getAlgoritmo().equals("CGNR")) {
+            result = cgnr.CGNRCalc(vetorSinal, matrizModelo, (int) request.getS(), (int) request.getN(), imagemProcessadaBuilder);
+        }
+        else {
+            result = cgne.CGNECalc(vetorSinal, matrizModelo, (int) request.getS(), (int) request.getN(), imagemProcessadaBuilder);
+        }
+
+        final Timestamp ts2 = Timestamp.newBuilder().setSeconds(System.currentTimeMillis() / 1000).build();
+        imagemProcessadaBuilder.setTermino(ts2);
+
         List<Double> vetorDouble = vectorToList(result);
 
-        ImagemProcessada.Builder imagemProcessadaBuilder = ImagemProcessada.newBuilder();
-        imagemProcessadaBuilder.addAllImagemProcessada(vetorDouble);
+        imagemProcessadaBuilder.addAllImagem(vetorDouble);
+        imagemProcessadaBuilder.setIdUsuario(request.getIdUsuario());
+        imagemProcessadaBuilder.setAlgoritmo(request.getAlgoritmo());
+        imagemProcessadaBuilder.setTamanho(vetorDouble.size());
 
         responseObserver.onNext(imagemProcessadaBuilder.build());
 

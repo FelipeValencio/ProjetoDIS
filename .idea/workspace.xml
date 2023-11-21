@@ -5,15 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0fda2bf9-47ba-404e-9200-1315d675abd0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grayscale_image.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/matrix_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/matrix_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/CGNE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/CGNE.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/CGNR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/CGNR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Cliente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/FileResourcesUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/FileResourcesUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/GrayscaleImageConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GrayscaleImageConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ProcessamentoImagemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ProcessamentoImagemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/GrayscaleImageConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/GrayscaleImageConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/CGNE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/CGNE.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/proto/dis.proto" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/proto/dis.proto" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,25 +40,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "Errors",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources" />
@@ -234,12 +234,12 @@
           <option name="timeStamp" value="1" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/CGNR.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java</url>
           <line>37</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/GrayscaleImageConverter.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/client/GrayscaleImageConverter.java</url>
           <line>51</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>

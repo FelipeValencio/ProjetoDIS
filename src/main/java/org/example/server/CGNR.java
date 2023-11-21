@@ -1,6 +1,7 @@
 package org.example.server;
 
 import no.uib.cipr.matrix.*;
+import org.example.grpc.ImagemProcessada;
 
 public class CGNR {
     /*
@@ -20,9 +21,8 @@ public class CGNR {
         p = Vector
      */
 
-    public Vector CGNRCalc(Vector g, Matrix h, int S, int N) {
+    public Vector CGNRCalc(Vector g, Matrix h, int S, int N, ImagemProcessada.Builder imagemProcessadaBuilder) {
 
-        System.out.println("calc");
         // f = 0
         Vector f = new DenseVector(h.numColumns());
         f.zero();
@@ -58,7 +58,8 @@ public class CGNR {
         double zm1Norm;
         Vector ap = new DenseVector(p.size());
 
-        for (int i = 0; i < 3; i++) {
+        int i;
+        for (i = 0; i < 3; i++) {
             System.out.println("for");
             // w = H * p[i]
             h.mult(p, w);
@@ -98,6 +99,8 @@ public class CGNR {
             f.set(fm1);
             r.set(rm1);
         }
+
+        imagemProcessadaBuilder.setInteracoes(i);
 
         System.out.println("cabo");
 

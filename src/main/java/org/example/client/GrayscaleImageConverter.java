@@ -16,12 +16,12 @@ public class GrayscaleImageConverter {
     List<Double> data;
     int size;
 
-    public void saveImage() {
+    public void saveImage(String name) {
         BufferedImage grayscaleImage = convertToGrayscaleImage();
 
         BufferedImage rotatedImage = rotateImage90Degrees(grayscaleImage);
 
-        saveGrayscaleImage(rotatedImage);
+        saveGrayscaleImage(rotatedImage, name);
     }
 
     public BufferedImage convertToGrayscaleImage() {
@@ -70,9 +70,9 @@ public class GrayscaleImageConverter {
         return rotatedImage;
     }
 
-    private void saveGrayscaleImage(BufferedImage image) {
+    private void saveGrayscaleImage(BufferedImage image, String name) {
         try {
-            String nomeArquivo = "grayscale_image.png";
+            String nomeArquivo = "results/"+name + "/grayscale_image_" + name + ".png";
             ImageIO.write(image, "png", new File(nomeArquivo));
             System.out.println("Image saved as " + nomeArquivo);
         } catch (IOException e) {
