@@ -1,24 +1,28 @@
-package org.example;
+package org.example.client;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import no.uib.cipr.matrix.Vector;
+import org.example.shared.FileResourcesUtils;
 import org.example.grpc.ImagemProcessada;
 import org.example.grpc.ProcessamentoImagemServiceGrpc;
 import org.example.grpc.VetorSinal;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.List;
 
 public class Cliente {
     public static void main(String[] args) {
+        // Inicia comunicacao com servidor
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
                 .usePlaintext()
                 .build();
 
+        //Instancia objeto para processar imagem
         ProcessamentoImagemServiceGrpc.ProcessamentoImagemServiceBlockingStub stub
                 = ProcessamentoImagemServiceGrpc.newBlockingStub(channel);
 
+        //Instancia objeto para puxar arquivo sinal
         FileResourcesUtils files = new FileResourcesUtils();
         // Vem do cliente
         double[] vetorSinal;
@@ -29,9 +33,8 @@ public class Cliente {
             throw new RuntimeException(e);
         }
 
+        // constroi vetor para mandar para o servidor
         VetorSinal.Builder vetorSinalBuilder = VetorSinal.newBuilder();
-
-        // Add all elements from the existing array to the repeated field
         Double[] objectArray = Arrays.stream(vetorSinal).boxed().toArray(Double[]::new);
         vetorSinalBuilder.addAllVetorSinal(Arrays.asList(objectArray));
 
@@ -39,8 +42,13 @@ public class Cliente {
         vetorSinalBuilder.setS(4.0);
         vetorSinalBuilder.setN(5.0);
 
+        ImagemProcessada imagemObj = stub.processarImagem(vetorSinalBuilder.build());
 
-        ImagemProcessada imagemProcessada = stub.processarImagem(vetorSinalBuilder.build());
+        List<Double> imagemProcessada = imagemObj.getImagemProcessadaList();
+
+        GrayscaleImageConverter imageConverter = new GrayscaleImageConverter(imagemProcessada, imagemProcessada.size());
+
+        imageConverter.saveImage();
 
         channel.shutdown();
     }

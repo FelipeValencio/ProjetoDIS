@@ -1,20 +1,28 @@
-package org.example;
+package org.example.client;
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.*;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
-import no.uib.cipr.matrix.*;
+import java.util.List;
 
 public class GrayscaleImageConverter {
-    public GrayscaleImageConverter(Vector data, int size) {
+    public GrayscaleImageConverter(List<Double> data, int size) {
         this.data = data;
         this.size = size;
     }
-    Vector data;
+    List<Double> data;
     int size;
+
+    public void saveImage() {
+        BufferedImage grayscaleImage = convertToGrayscaleImage();
+
+        BufferedImage rotatedImage = rotateImage90Degrees(grayscaleImage);
+
+        saveGrayscaleImage(rotatedImage);
+    }
 
     public BufferedImage convertToGrayscaleImage() {
         this.size =  (int) Math.sqrt(this.size);
@@ -24,9 +32,9 @@ public class GrayscaleImageConverter {
         // Find the minimum and maximum values in the data
         double min = Double.MAX_VALUE;
         double max = Double.MIN_VALUE;
-        for (VectorEntry value : data) {
-            if (value.get() < min) min = value.get();
-            if (value.get() > max) max = value.get();
+        for (Double value : data) {
+            if (value < min) min = value;
+            if (value > max) max = value;
         }
 
         // Normalize and set the grayscale pixel values
@@ -64,19 +72,12 @@ public class GrayscaleImageConverter {
 
     private void saveGrayscaleImage(BufferedImage image) {
         try {
-            ImageIO.write(image, "png", new File("grayscale_image.png"));
-            System.out.println("Image saved as " + "grayscale_imagexom.png");
+            String nomeArquivo = "grayscale_image.png";
+            ImageIO.write(image, "png", new File(nomeArquivo));
+            System.out.println("Image saved as " + nomeArquivo);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void saveImage() {
-        BufferedImage grayscaleImage = convertToGrayscaleImage();
-
-        BufferedImage rotatedImage = rotateImage90Degrees(grayscaleImage);
-
-        saveGrayscaleImage(rotatedImage);
     }
 
 }

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.server;
 
 import no.uib.cipr.matrix.*;
 
@@ -20,7 +20,7 @@ public class CGNE {
         p = Vector
      */
 
-    public void CGNECalc(Vector g, Matrix h, int S, int N) {
+    public Vector CGNECalc(Vector g, Matrix h, int S, int N) {
         // f = 0
         Vector f = new DenseVector(h.numColumns());
         f.zero();
@@ -78,12 +78,7 @@ public class CGNE {
         }
 
         System.out.println("cabo");
-        // Loop through the matrix and print the elements
-        FileResourcesUtils.exportToCSV(f);
-
-        GrayscaleImageConverter imageConverter = new GrayscaleImageConverter(f, h.numColumns());
-
-        imageConverter.saveImage();
+        return f;
     }
 
 }

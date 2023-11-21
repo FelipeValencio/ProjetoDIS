@@ -1,4 +1,4 @@
-package org.example;
+package org.example.server;
 
 import no.uib.cipr.matrix.*;
 
@@ -20,7 +20,7 @@ public class CGNR {
         p = Vector
      */
 
-    public void CGNRCalc(Vector g, Matrix h, int S, int N) {
+    public Vector CGNRCalc(Vector g, Matrix h, int S, int N) {
 
         System.out.println("calc");
         // f = 0
@@ -100,11 +100,7 @@ public class CGNR {
         }
 
         System.out.println("cabo");
-        // Loop through the matrix and print the elements
-        FileResourcesUtils.exportToCSV(f);
 
-        GrayscaleImageConverter imageConverter = new GrayscaleImageConverter(f, h.numColumns());
-
-        imageConverter.saveImage();
+        return f;
     }
 }
