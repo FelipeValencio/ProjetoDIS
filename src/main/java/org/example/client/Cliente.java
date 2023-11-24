@@ -1,6 +1,5 @@
 package org.example.client;
 
-import com.google.protobuf.Timestamp;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.example.shared.FileResourcesUtils;
@@ -42,6 +41,9 @@ public class Cliente extends Thread{
 
     public void run()  {
 
+        int S = 436;
+        int N = 64;
+
         try {
             Files.createDirectories(Paths.get("./results/" + Thread.currentThread().getName()));
         } catch (IOException e) {
@@ -75,6 +77,8 @@ public class Cliente extends Thread{
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+        vetorSinal = calculaGanhoSinal(vetorSinal, S, N);
 
         // constroi vetor para mandar para o servidor
         VetorSinal.Builder vetorSinalBuilder = VetorSinal.newBuilder();
@@ -112,5 +116,52 @@ public class Cliente extends Thread{
         writer.println("Tempo em segundos: " + (imagemProcessada.getTermino().getSeconds() - imagemProcessada.getInicio().getSeconds()));
         writer.println("Algoritmo: " + imagemProcessada.getAlgoritmo());
         writer.close();
+    }
+
+    private double[] calculaGanhoSinal(double[] vetorSinal, int S, int N) {
+
+        double[][] matrizSinal = convertVectorToMatrix(vetorSinal, N, S, S*N);
+
+        double[] y;
+
+        for (int c = 0; c < N; c++) {
+            for (int l = 0; l < S; l++) {
+                matrizSinal[c][l] = matrizSinal[c][l] * (100 + ( (double) 1/20 * ( l * Math.sqrt(l) ) ) );
+            }
+        }
+
+        return convertMatrixToVector(matrizSinal);
+
+    }
+
+    public static double[][] convertVectorToMatrix(double[] vector, int rows, int cols, int size) {
+        double[][] matrix = new double[rows][cols];
+        int index = 0;
+
+        // Populate the matrix using the vector
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (index < size) {
+                    matrix[i][j] = vector[index++];
+                }
+            }
+        }
+        return matrix;
+    }
+
+    public static double[] convertMatrixToVector(double[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        double[] vector = new double[rows * cols];
+        int index = 0;
+
+        // Populate the vector from the matrix
+        for (double[] doubles : matrix) {
+            for (int j = 0; j < cols; j++) {
+                vector[index++] = doubles[j];
+            }
+        }
+        return vector;
     }
 }
