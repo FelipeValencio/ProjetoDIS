@@ -1,5 +1,6 @@
 package org.example.client;
 
+import com.google.protobuf.Timestamp;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.example.shared.FileResourcesUtils;
@@ -13,7 +14,6 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -23,7 +23,7 @@ public class Cliente extends Thread{
 
         Files.createDirectories(Paths.get("./results"));
 
-        final double NUM_THREADS = 10;
+        final double NUM_THREADS = 1;
 
         Cliente cliente = new Cliente();
 
@@ -78,6 +78,7 @@ public class Cliente extends Thread{
 
         // constroi vetor para mandar para o servidor
         VetorSinal.Builder vetorSinalBuilder = VetorSinal.newBuilder();
+
         Double[] objectArray = Arrays.stream(vetorSinal).boxed().toArray(Double[]::new);
         vetorSinalBuilder.addAllVetorSinal(Arrays.asList(objectArray));
 

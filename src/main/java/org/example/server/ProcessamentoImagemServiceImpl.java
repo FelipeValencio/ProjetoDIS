@@ -48,6 +48,7 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
 
         final Timestamp ts2 = Timestamp.newBuilder().setSeconds(System.currentTimeMillis() / 1000).build();
         imagemProcessadaBuilder.setTermino(ts2);
+        imagemProcessadaBuilder.setInicio(ts1);
 
         List<Double> vetorDouble = vectorToList(result);
 
