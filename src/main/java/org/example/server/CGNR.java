@@ -58,9 +58,12 @@ public class CGNR {
         double zm1Norm;
         Vector ap = new DenseVector(p.size());
 
-        int i;
-        for (i = 0; i < 3; i++) {
-            System.out.println("for");
+        double e = 1;
+        double limiteErro = 1e-4;
+
+        int i = 0;
+        while (e >= limiteErro) {
+            System.out.println(e);
             // w = H * p[i]
             h.mult(p, w);
 
@@ -93,11 +96,15 @@ public class CGNR {
             pm1.scale(b);
             pm1.add(1, zm1);
 
+            // e = norm2(r[i+1]) - norm2(r[i])
+            e = rm1.norm(Vector.Norm.Two) - r.norm(Vector.Norm.Two);
+
             // Atualizar valores i+1
             p.set(pm1);
             z.set(zm1);
             f.set(fm1);
             r.set(rm1);
+            i++;
         }
 
         imagemProcessadaBuilder.setInteracoes(i);

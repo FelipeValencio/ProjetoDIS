@@ -5,13 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0fda2bf9-47ba-404e-9200-1315d675abd0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/modelo1/G-2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/modelo2/A-30x30-1.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/modelo2/g-30x30-2.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Cliente.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/CGNE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/CGNE.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/Servidor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/Servidor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/proto/dis.proto" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/proto/dis.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/shared/FileResourcesUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/shared/FileResourcesUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/G-1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/modelo1/G-1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/M.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/MN.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/N.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/a.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/aM.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/g-30x30-1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/modelo2/g-30x30-1.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +65,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/felipe/Projetos/faculdade/ProjetoDIS/src/main/resources/modelo2&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -62,12 +74,18 @@
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/modelo2" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/modelo2" />
+      <recent name="$PROJECT_DIR$/src/main/resources/modelo1" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
   </component>
@@ -216,6 +234,8 @@
       <workItem from="1699645244030" duration="567000" />
       <workItem from="1699646209390" duration="2204000" />
       <workItem from="1700852766526" duration="4728000" />
+      <workItem from="1701024977926" duration="292000" />
+      <workItem from="1701025305560" duration="2153000" />
     </task>
     <servers />
   </component>
@@ -241,19 +261,14 @@
           <option name="timeStamp" value="1" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java</url>
-          <line>37</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/client/GrayscaleImageConverter.java</url>
           <line>51</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="22" />
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java</url>
+          <line>64</line>
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -264,6 +279,11 @@
         <PinnedItemInfo parentTag="no.uib.cipr.matrix.DenseMatrix" memberName="numColumns" />
       </pinned-members>
     </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="e" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

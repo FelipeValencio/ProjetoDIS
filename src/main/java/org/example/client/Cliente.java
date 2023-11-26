@@ -12,10 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -42,7 +39,7 @@ public class Cliente extends Thread{
 
     public void run()  {
 
-        int S = 436;
+        int S = 794;
         int N = 64;
 
         System.out.println(
@@ -64,12 +61,8 @@ public class Cliente extends Thread{
         FileResourcesUtils files = new FileResourcesUtils();
         // Vem do cliente
         double[] vetorSinal;
-        try {
-            // Achar melhor forma de como mandar esse dado para servidor e converter para Vector
-            vetorSinal = files.importVectorFromCsv("g-30x30-1.csv", ';');
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        // Achar melhor forma de como mandar esse dado para servidor e converter para Vector
+        vetorSinal = files.importVectorFromCsv("modelo1/A-3.csv", ';');
 
         vetorSinal = calculaGanhoSinal(vetorSinal, S, N);
 
@@ -80,7 +73,7 @@ public class Cliente extends Thread{
         vetorSinalBuilder.addAllVetorSinal(Arrays.asList(objectArray));
 
         vetorSinalBuilder.setIdUsuario(Thread.currentThread().getName());
-        vetorSinalBuilder.setAlgoritmo("CGNE");
+        vetorSinalBuilder.setAlgoritmo("CGNR");
 
         ListenableFuture<ImagemProcessada> listenableFuture =
                 stub.processarImagem(vetorSinalBuilder.build());
@@ -127,7 +120,7 @@ public class Cliente extends Thread{
 
     }
 
-    public static double[][] convertVectorToMatrix(double[] vector, int rows, int cols, int size) {
+    public double[][] convertVectorToMatrix(double[] vector, int rows, int cols, int size) {
         double[][] matrix = new double[rows][cols];
         int index = 0;
 
@@ -139,6 +132,7 @@ public class Cliente extends Thread{
                 }
             }
         }
+
         return matrix;
     }
 
@@ -157,4 +151,5 @@ public class Cliente extends Thread{
         }
         return vector;
     }
+
 }

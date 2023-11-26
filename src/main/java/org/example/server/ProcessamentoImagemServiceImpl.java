@@ -20,6 +20,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGrpc.ProcessamentoImagemServiceImplBase {
+
+    Matrix matrizModelo;
+
+    public ProcessamentoImagemServiceImpl() {
+        FileResourcesUtils files = new FileResourcesUtils();
+        try {
+            matrizModelo = files.importMatrixFromCsv("modelo1/H-1.csv", ',');
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void processarImagem(VetorSinal request, StreamObserver<ImagemProcessada> responseObserver) {
 
@@ -35,14 +47,6 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
         ImagemProcessada.Builder imagemProcessadaBuilder = ImagemProcessada.newBuilder();
         final Timestamp ts1 = Timestamp.newBuilder().setSeconds(System.currentTimeMillis() / 1000).build();
         imagemProcessadaBuilder.setInicio(ts1);
-
-        FileResourcesUtils files = new FileResourcesUtils();
-        Matrix matrizModelo = null;
-        try {
-            matrizModelo = files.importMatrixFromCsv("H-2.csv", ',');
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
 
         CGNR cgnr = new CGNR();
         CGNE cgne = new CGNE();
@@ -73,7 +77,6 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
         imagemProcessadaBuilder.setIdUsuario(request.getIdUsuario());
         imagemProcessadaBuilder.setAlgoritmo(request.getAlgoritmo());
         imagemProcessadaBuilder.setTamanho(vetorDouble.size());
-
 
         GrayscaleImageConverter imageConverter = new GrayscaleImageConverter(vetorDouble, vetorDouble.size());
 

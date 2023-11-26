@@ -4,95 +4,101 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FileResourcesUtils {
 
-    public static void exportToCSV(List<Double> vector) {
-        // Define the file path where you want to export the matrix
-        String filePath = "matrix_data.csv";
+    public Matrix importMatrixFromCsv(String fileName, char separator) throws FileNotFoundException {
+        try (CSVReader csvReader = getStrings(fileName, separator)) {
+            int chunkSize = 1000; // Define your chunk size
 
-        try {
-            // Create a BufferedWriter to write to the file
-            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+            List<double[][]> chunks = new ArrayList<>();
+            int numCols = 0;
 
-            for (double v : vector) {
-                writer.write(String.valueOf(v));
-                writer.write(",");
-                // Move to the next row
-                writer.write("\n");
-            }
-
-            // Close the writer when done
-            writer.close();
-
-            System.out.println("Matrix exported to " + filePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public @NotNull Matrix importMatrixFromCsv(String fileName, char separator) throws FileNotFoundException {
-        ArrayList<ArrayList<Double>> matrix = new ArrayList<>();
-
-        try {
-            CSVReader csvReader = getStrings(fileName, separator);
             String[] nextRecord;
-
             while ((nextRecord = csvReader.readNext()) != null) {
-                ArrayList<Double> temp = new ArrayList<>();
-                for (String cell : nextRecord) {
-                    temp.add(Double.parseDouble(cell));
+                if (numCols == 0) {
+                    numCols = nextRecord.length;
                 }
-                matrix.add(temp);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        int numRows = matrix.size();
-        int numCols = (numRows > 0) ? matrix.get(0).size() : 0;
+                double[][] chunk = new double[chunkSize][numCols];
+                int rowCount = 0;
 
-        double[][] matrixArray = new double[numRows][numCols];
+                do {
+                    for (int j = 0; j < numCols; j++) {
+                        chunk[rowCount][j] = Double.parseDouble(nextRecord[j]);
+                    }
+                    rowCount++;
 
-        for (int i = 0; i < numRows; i++) {
-            ArrayList<Double> row = matrix.get(i);
-            for (int j = 0; j < numCols; j++) {
-                matrixArray[i][j] = row.get(j);
-            }
-        }
+                    if (rowCount == chunkSize) {
+                        chunks.add(chunk);
+                        chunk = new double[chunkSize][numCols];
+                        rowCount = 0;
+                    }
+                } while (rowCount < chunkSize && (nextRecord = csvReader.readNext()) != null);
 
-        return new DenseMatrix(matrixArray);
-    }
-
-    public double @NotNull [] importVectorFromCsv(String fileName, char separator) throws FileNotFoundException {
-        ArrayList<Double> vector = new ArrayList<>();
-
-        try {
-            CSVReader csvReader = getStrings(fileName, separator);
-            String[] nextRecord;
-
-            while ((nextRecord = csvReader.readNext()) != null) {
-                for (String cell : nextRecord) {
-                    vector.add(Double.parseDouble(cell));
+                if (rowCount > 0) {
+                    double[][] trimmedChunk = new double[rowCount][numCols];
+                    System.arraycopy(chunk, 0, trimmedChunk, 0, rowCount);
+                    chunks.add(trimmedChunk);
                 }
             }
 
-            return convertToDoubleArray(vector);
+            int numRows = chunks.stream().mapToInt(chunk -> chunk.length).sum();
 
-        } catch (CsvValidationException | IOException e) {
+            if (numRows > 0 && numCols > 0) {
+                double[][] finalMatrix = new double[numRows][numCols];
+                int rowIndex = 0;
+
+                for (double[][] chunk : chunks) {
+                    int chunkRows = chunk.length;
+                    System.arraycopy(chunk, 0, finalMatrix, rowIndex, chunkRows);
+                    rowIndex += chunkRows;
+                }
+
+                return new DenseMatrix(finalMatrix);
+            }
+        } catch (IOException | CsvValidationException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public double[] importVectorFromCsv(String fileName, char separator) {
+        try (CSVReader csvReader = getStrings(fileName, separator)) {
+            List<String[]> records = csvReader.readAll();
+            int totalRecords = records.size();
+
+            if (totalRecords > 0) {
+                int totalColumns = records.get(0).length;
+                double[] dataArray = new double[totalRecords * totalColumns];
+                int dataIndex = 0;
+
+                for (String[] row : records) {
+                    for (String cell : row) {
+                        dataArray[dataIndex++] = Double.parseDouble(cell);
+                    }
+                }
+
+                return dataArray;
+            }
+        } catch (IOException | CsvException e) {
             throw new RuntimeException(e);
         }
 
+        return new double[0];
     }
+
 
     private double[] convertToDoubleArray(ArrayList<Double> arrayList) {
         int size = arrayList.size();
