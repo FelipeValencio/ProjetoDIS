@@ -7,11 +7,23 @@
     <list default="true" id="0fda2bf9-47ba-404e-9200-1315d675abd0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/CGNE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/CGNE.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/Servidor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/Servidor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/proto/dis.proto" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/proto/dis.proto" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -237,6 +249,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/example/client/GrayscaleImageConverter.java</url>
           <line>51</line>
           <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

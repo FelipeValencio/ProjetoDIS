@@ -7,11 +7,18 @@ import java.io.IOException;
 
 public class Servidor {
     public static void main(String[] args) throws IOException, InterruptedException {
+
+        int port = 8081;
+
         Server server = ServerBuilder
-                .forPort(8080)
-                .addService(new ProcessamentoImagemServiceImpl()).build();
+                .forPort(port)
+                .addService(new ProcessamentoImagemServiceImpl())
+                .build();
 
         server.start();
+
+        System.out.println("Servidor iniciado na porta: " + port);
+
         server.awaitTermination();
     }
 }

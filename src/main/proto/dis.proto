@@ -7,8 +7,6 @@ package org.example.grpc;
 
 message VetorSinal {
   repeated double vetorSinal = 1;
-  double s = 2;
-  double n = 3;
   string idUsuario = 4;
   string algoritmo = 5;
 }

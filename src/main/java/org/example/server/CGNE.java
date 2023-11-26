@@ -21,7 +21,7 @@ public class CGNE {
         p = Vector
      */
 
-    public Vector CGNECalc(Vector g, Matrix h, int S, int N, ImagemProcessada.Builder imagemProcessadaBuilder) {
+    public Vector CGNECalc(Vector g, Matrix h, ImagemProcessada.Builder imagemProcessadaBuilder) {
         // f = 0
         Vector f = new DenseVector(h.numColumns());
         f.zero();

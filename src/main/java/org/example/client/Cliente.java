@@ -1,9 +1,10 @@
 package org.example.client;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import org.example.shared.FileResourcesUtils;
 import org.example.grpc.ImagemProcessada;
+import org.example.shared.FileResourcesUtils;
 import org.example.grpc.ProcessamentoImagemServiceGrpc;
 import org.example.grpc.VetorSinal;
 
@@ -16,13 +17,13 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Cliente extends Thread{
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        Files.createDirectories(Paths.get("./results"));
-
-        final double NUM_THREADS = 1;
+        final double NUM_THREADS = 10;
 
         Cliente cliente = new Cliente();
 
@@ -44,12 +45,6 @@ public class Cliente extends Thread{
         int S = 436;
         int N = 64;
 
-        try {
-            Files.createDirectories(Paths.get("./results/" + Thread.currentThread().getName()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         System.out.println(
                 "Current Thread Name: "
                         + Thread.currentThread().getName());
@@ -59,13 +54,11 @@ public class Cliente extends Thread{
                         + Thread.currentThread().getId());
 
         // Inicia comunicacao com servidor
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
-                .usePlaintext()
-                .build();
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8081).usePlaintext().build();
 
         //Instancia objeto para processar imagem
-        ProcessamentoImagemServiceGrpc.ProcessamentoImagemServiceBlockingStub stub
-                = ProcessamentoImagemServiceGrpc.newBlockingStub(channel);
+        ProcessamentoImagemServiceGrpc.ProcessamentoImagemServiceFutureStub stub =
+                ProcessamentoImagemServiceGrpc.newFutureStub(channel);
 
         //Instancia objeto para puxar arquivo sinal
         FileResourcesUtils files = new FileResourcesUtils();
@@ -86,27 +79,29 @@ public class Cliente extends Thread{
         Double[] objectArray = Arrays.stream(vetorSinal).boxed().toArray(Double[]::new);
         vetorSinalBuilder.addAllVetorSinal(Arrays.asList(objectArray));
 
-        Random rand = new Random();
-        // Set values for other fields
-        vetorSinalBuilder.setS(rand.nextInt());
-        vetorSinalBuilder.setN(rand.nextInt());
         vetorSinalBuilder.setIdUsuario(Thread.currentThread().getName());
         vetorSinalBuilder.setAlgoritmo("CGNE");
 
-        ImagemProcessada imagemObj = stub.processarImagem(vetorSinalBuilder.build());
+        ListenableFuture<ImagemProcessada> listenableFuture =
+                stub.processarImagem(vetorSinalBuilder.build());
 
-        List<Double> imagemProcessada = imagemObj.getImagemList();
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
 
-        GrayscaleImageConverter imageConverter = new GrayscaleImageConverter(imagemProcessada, imagemProcessada.size());
-
-        imageConverter.saveImage(Thread.currentThread().getName());
         try {
-            relatorio(imagemObj, Thread.currentThread().getName());
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+            ImagemProcessada value = listenableFuture.get();
+
+            try {
+                relatorio(value, Thread.currentThread().getName());
+            } catch (FileNotFoundException | UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            fixedThreadPool.shutdown();
+            channel.shutdown();
         }
 
-        channel.shutdown();
     }
 
     private void relatorio(ImagemProcessada imagemProcessada, String thread) throws FileNotFoundException, UnsupportedEncodingException {
@@ -121,8 +116,6 @@ public class Cliente extends Thread{
     private double[] calculaGanhoSinal(double[] vetorSinal, int S, int N) {
 
         double[][] matrizSinal = convertVectorToMatrix(vetorSinal, N, S, S*N);
-
-        double[] y;
 
         for (int c = 0; c < N; c++) {
             for (int l = 0; l < S; l++) {

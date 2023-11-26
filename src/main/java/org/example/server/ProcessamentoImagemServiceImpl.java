@@ -6,18 +6,31 @@ import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
 import no.uib.cipr.matrix.VectorEntry;
+import org.example.client.GrayscaleImageConverter;
 import org.example.grpc.ImagemProcessada;
 import org.example.grpc.ProcessamentoImagemServiceGrpc;
 import org.example.grpc.VetorSinal;
 import org.example.shared.FileResourcesUtils;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGrpc.ProcessamentoImagemServiceImplBase {
     @Override
     public void processarImagem(VetorSinal request, StreamObserver<ImagemProcessada> responseObserver) {
+
+        try {
+            Files.createDirectories(Paths.get("./results"));
+            Files.createDirectories(Paths.get("./results/" + request.getIdUsuario()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("servidor");
 
         ImagemProcessada.Builder imagemProcessadaBuilder = ImagemProcessada.newBuilder();
         final Timestamp ts1 = Timestamp.newBuilder().setSeconds(System.currentTimeMillis() / 1000).build();
@@ -39,12 +52,16 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
         Vector vetorSinal = new DenseVector(doubleArray);
         Vector result;
 
+        System.out.println("Inicio processamento");
+
         if(request.getAlgoritmo().equals("CGNR")) {
-            result = cgnr.CGNRCalc(vetorSinal, matrizModelo, (int) request.getS(), (int) request.getN(), imagemProcessadaBuilder);
+            result = cgnr.CGNRCalc(vetorSinal, matrizModelo, imagemProcessadaBuilder);
         }
         else {
-            result = cgne.CGNECalc(vetorSinal, matrizModelo, (int) request.getS(), (int) request.getN(), imagemProcessadaBuilder);
+            result = cgne.CGNECalc(vetorSinal, matrizModelo, imagemProcessadaBuilder);
         }
+
+        System.out.println("Final processamento");
 
         final Timestamp ts2 = Timestamp.newBuilder().setSeconds(System.currentTimeMillis() / 1000).build();
         imagemProcessadaBuilder.setTermino(ts2);
@@ -57,8 +74,12 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
         imagemProcessadaBuilder.setAlgoritmo(request.getAlgoritmo());
         imagemProcessadaBuilder.setTamanho(vetorDouble.size());
 
-        responseObserver.onNext(imagemProcessadaBuilder.build());
 
+        GrayscaleImageConverter imageConverter = new GrayscaleImageConverter(vetorDouble, vetorDouble.size());
+
+        imageConverter.saveImage(request.getIdUsuario());
+
+        responseObserver.onNext(imagemProcessadaBuilder.build());
         responseObserver.onCompleted();
 
     }

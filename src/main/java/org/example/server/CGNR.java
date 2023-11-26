@@ -21,7 +21,7 @@ public class CGNR {
         p = Vector
      */
 
-    public Vector CGNRCalc(Vector g, Matrix h, int S, int N, ImagemProcessada.Builder imagemProcessadaBuilder) {
+    public Vector CGNRCalc(Vector g, Matrix h, ImagemProcessada.Builder imagemProcessadaBuilder) {
 
         // f = 0
         Vector f = new DenseVector(h.numColumns());
