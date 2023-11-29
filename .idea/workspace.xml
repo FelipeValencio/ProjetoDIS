@@ -5,24 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0fda2bf9-47ba-404e-9200-1315d675abd0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/modelo1/G-2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/modelo2/A-30x30-1.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/modelo2/g-30x30-2.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Cliente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/CGNE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/CGNE.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/shared/FileResourcesUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/shared/FileResourcesUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/G-1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/modelo1/G-1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/M.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/MN.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/N.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/a.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/aM.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/g-30x30-1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/modelo2/g-30x30-1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/modelo2/A-30x30-1.csv" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -264,11 +250,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/example/client/GrayscaleImageConverter.java</url>
           <line>51</line>
           <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java</url>
-          <line>64</line>
-          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -26,7 +26,7 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
     public ProcessamentoImagemServiceImpl() {
         FileResourcesUtils files = new FileResourcesUtils();
         try {
-            matrizModelo = files.importMatrixFromCsv("modelo1/H-1.csv", ',');
+            matrizModelo = files.importMatrixFromCsv("modelo2/H-2.csv", ',');
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

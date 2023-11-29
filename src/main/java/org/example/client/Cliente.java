@@ -39,7 +39,10 @@ public class Cliente extends Thread{
 
     public void run()  {
 
-        int S = 794;
+        //Modelo 1
+//        int S = 794;
+        //Modelo 2
+        int S = 436;
         int N = 64;
 
         System.out.println(
@@ -62,7 +65,7 @@ public class Cliente extends Thread{
         // Vem do cliente
         double[] vetorSinal;
         // Achar melhor forma de como mandar esse dado para servidor e converter para Vector
-        vetorSinal = files.importVectorFromCsv("modelo1/A-3.csv", ';');
+        vetorSinal = files.importVectorFromCsv("modelo2/g-30x30-1.csv", ';');
 
         vetorSinal = calculaGanhoSinal(vetorSinal, S, N);
 
