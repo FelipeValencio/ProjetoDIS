@@ -44,8 +44,6 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
             throw new RuntimeException(e);
         }
 
-        System.out.println("servidor");
-
         ImagemProcessada.Builder imagemProcessadaBuilder = ImagemProcessada.newBuilder();
         final Timestamp ts1 = Timestamp.newBuilder().setSeconds(System.currentTimeMillis() / 1000).build();
         imagemProcessadaBuilder.setInicio(ts1);
@@ -95,8 +93,6 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
         for (VectorEntry value : vector) {
             doubleList.add(value.get());
         }
-
-        System.out.println("converteu");
 
         return doubleList;
     }

@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0fda2bf9-47ba-404e-9200-1315d675abd0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Cliente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,8 +67,8 @@
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/modelo2" />
       <recent name="$PROJECT_DIR$/src/main/resources/modelo1" />
+      <recent name="$PROJECT_DIR$/src/main/resources/modelo2" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
   </component>
@@ -223,7 +221,7 @@
       <workItem from="1701024977926" duration="292000" />
       <workItem from="1701025305560" duration="2153000" />
       <workItem from="1701261508357" duration="14000" />
-      <workItem from="1701457725890" duration="2706000" />
+      <workItem from="1701457725890" duration="3337000" />
     </task>
     <servers />
   </component>

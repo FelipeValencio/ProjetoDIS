@@ -110,11 +110,7 @@ public class Cliente extends Thread{
         try {
             ImagemProcessada value = listenableFuture.get();
 
-            try {
-                relatorio(value, Thread.currentThread().getName());
-            } catch (FileNotFoundException | UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
+            relatorio(value, Thread.currentThread().getName());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
