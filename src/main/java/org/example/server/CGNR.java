@@ -105,6 +105,7 @@ public class CGNR {
             f.set(fm1);
             r.set(rm1);
             i++;
+            if(i == 30) break;
         }
 
         imagemProcessadaBuilder.setInteracoes(i);

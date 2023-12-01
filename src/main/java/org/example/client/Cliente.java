@@ -9,7 +9,6 @@ import org.example.grpc.ProcessamentoImagemServiceGrpc;
 import org.example.grpc.VetorSinal;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
@@ -18,7 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Cliente extends Thread{
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
 
         final double NUM_THREADS = 10;
 
@@ -62,10 +61,10 @@ public class Cliente extends Thread{
 
         //Instancia objeto para puxar arquivo sinal
         FileResourcesUtils files = new FileResourcesUtils();
-        // Vem do cliente
+
         double[] vetorSinal;
-        // Achar melhor forma de como mandar esse dado para servidor e converter para Vector
-        vetorSinal = files.importVectorFromCsv("modelo2/g-30x30-1.csv", ';');
+
+        vetorSinal = files.importVectorFromCsv("modelo2/A-3.csv", ';');
 
         vetorSinal = calculaGanhoSinal(vetorSinal, S, N);
 

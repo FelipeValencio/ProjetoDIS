@@ -7,8 +7,11 @@
     <list default="true" id="0fda2bf9-47ba-404e-9200-1315d675abd0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/client/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/client/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/CGNE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/CGNE.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/CGNR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/server/ProcessamentoImagemServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/modelo2/A-30x30-1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/shared/FileResourcesUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/shared/FileResourcesUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/proto/dis.proto" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/proto/dis.proto" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +102,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="org.example.server.Servidor" />
       <module name="ProjetoDIS" />
+      <option name="PROGRAM_PARAMETERS" value="-Xmx6000m" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -222,6 +226,8 @@
       <workItem from="1700852766526" duration="4728000" />
       <workItem from="1701024977926" duration="292000" />
       <workItem from="1701025305560" duration="2153000" />
+      <workItem from="1701261508357" duration="14000" />
+      <workItem from="1701457725890" duration="1721000" />
     </task>
     <servers />
   </component>
