@@ -101,32 +101,33 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
         return doubleList;
     }
 
-//    @Override
-//    public void getRecursos(EmptyRequest emptyRequest, StreamObserver<ImagemProcessada> responseObserver) {
-//        // Get the OperatingSystemMXBean
-//        OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-//
-//        // Get the MemoryMXBean
-//        MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
-//
-//        // CPU Usage
-//        double cpuUsage = osBean.getSystemCpuLoad() * 100;
-//        System.out.println("CPU Usage: " + cpuUsage + "%");
-//
-//        // Memory Usage
-//        MemoryUsage heapMemoryUsage = memoryBean.getHeapMemoryUsage();
-//        long usedMemory = heapMemoryUsage.getUsed();
-//        long maxMemory = heapMemoryUsage.getMax();
-//        double memoryUsage = (double) usedMemory / maxMemory * 100;
-//        System.out.println("Memory Usage: " + memoryUsage + "%");
-//
-//        Recursos.Builder recursosBuilder = Recursos.newBuilder();
-//
-//        recursosBuilder.setCpu(cpuUsage);
-//        recursosBuilder.setMemoria(memoryUsage);
-//
-//        res
-//    }
+    @Override
+    public void getRecursos(EmptyRequest emptyRequest, StreamObserver<Recursos> responseObserver) {
+        // Get the OperatingSystemMXBean
+        OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+
+        // Get the MemoryMXBean
+        MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
+
+        // CPU Usage
+        double cpuUsage = osBean.getSystemCpuLoad() * 100;
+        System.out.println("CPU Usage: " + cpuUsage + "%");
+
+        // Memory Usage
+        MemoryUsage heapMemoryUsage = memoryBean.getHeapMemoryUsage();
+        long usedMemory = heapMemoryUsage.getUsed();
+        long maxMemory = heapMemoryUsage.getMax();
+        double memoryUsage = (double) usedMemory / maxMemory * 100;
+        System.out.println("Memory Usage: " + memoryUsage + "%");
+
+        Recursos.Builder recursosBuilder = Recursos.newBuilder();
+
+        recursosBuilder.setCpu(cpuUsage);
+        recursosBuilder.setMemoria(memoryUsage);
+
+        responseObserver.onNext(recursosBuilder.build());
+        responseObserver.onCompleted();
+    }
 
 
 }

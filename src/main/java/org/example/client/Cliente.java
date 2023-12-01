@@ -3,10 +3,8 @@ package org.example.client;
 import com.google.common.util.concurrent.ListenableFuture;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import org.example.grpc.ImagemProcessada;
+import org.example.grpc.*;
 import org.example.shared.FileResourcesUtils;
-import org.example.grpc.ProcessamentoImagemServiceGrpc;
-import org.example.grpc.VetorSinal;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -59,6 +57,9 @@ public class Cliente extends Thread{
         ProcessamentoImagemServiceGrpc.ProcessamentoImagemServiceFutureStub stub =
                 ProcessamentoImagemServiceGrpc.newFutureStub(channel);
 
+        ProcessamentoImagemServiceGrpc.ProcessamentoImagemServiceBlockingStub blockingStub
+                = ProcessamentoImagemServiceGrpc.newBlockingStub(channel);
+
         //Instancia objeto para puxar arquivo sinal
         FileResourcesUtils files = new FileResourcesUtils();
 
@@ -76,6 +77,30 @@ public class Cliente extends Thread{
 
         vetorSinalBuilder.setIdUsuario(Thread.currentThread().getName());
         vetorSinalBuilder.setAlgoritmo("CGNR");
+
+        int tentativa = 1;
+
+        Recursos recursos = blockingStub.getRecursos(EmptyRequest.newBuilder().build());
+        System.out.println( "Current Thread Name: "
+                + Thread.currentThread().getName() + " CPU Usage: " + recursos.getCpu() + "%");
+        System.out.println( "Current Thread Name: "
+                + Thread.currentThread().getName() + " Memory Usage: " + recursos.getMemoria() + "%");
+
+        while(recursos.getCpu() > 60 || recursos.getMemoria() > 50) {
+            tentativa++;
+            System.out.println( "Current Thread Name: "
+                    + Thread.currentThread().getName() + " CPU Usage: " + recursos.getCpu() + "%");
+            System.out.println( "Current Thread Name: "
+                    + Thread.currentThread().getName() + " Memory Usage: " + recursos.getMemoria() + "%");
+            System.out.println( "Current Thread Name: "
+                    + Thread.currentThread().getName() + " Tentativa: " + tentativa);
+            try {
+                Thread.sleep(5 * 1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            recursos = blockingStub.getRecursos(EmptyRequest.newBuilder().build());
+        }
 
         ListenableFuture<ImagemProcessada> listenableFuture =
                 stub.processarImagem(vetorSinalBuilder.build());
