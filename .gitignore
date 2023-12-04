@@ -40,5 +40,4 @@ build/
 .DS_Store
 
 ### Large files
-/src/main/resources/modelo1/
-/src/main/resources/modelo2/
+/src/main/resources/
