@@ -65,7 +65,7 @@ public class Cliente extends Thread{
 
         double[] vetorSinal;
 
-        vetorSinal = files.importVectorFromCsv("modelo2/A-3.csv", ';');
+        vetorSinal = files.importVectorFromCsv("modelo2/g-30x30-1.csv", ';');
 
         vetorSinal = calculaGanhoSinal(vetorSinal, S, N);
 
@@ -86,6 +86,7 @@ public class Cliente extends Thread{
         System.out.println( "Current Thread Name: "
                 + Thread.currentThread().getName() + " Memory Usage: " + recursos.getMemoria() + "%");
 
+        // Mover para servidor com fila
         while(recursos.getCpu() > 60 || recursos.getMemoria() > 50) {
             tentativa++;
             System.out.println( "Current Thread Name: "
