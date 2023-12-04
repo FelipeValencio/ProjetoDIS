@@ -10,9 +10,7 @@ import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.*;
 
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FileResourcesUtils {
@@ -44,7 +42,7 @@ public class FileResourcesUtils {
                         chunk = new double[chunkSize][numCols];
                         rowCount = 0;
                     }
-                } while (rowCount < chunkSize && (nextRecord = csvReader.readNext()) != null);
+                } while ( (nextRecord = csvReader.readNext()) != null);
 
                 if (rowCount > 0) {
                     double[][] trimmedChunk = new double[rowCount][numCols];
@@ -99,18 +97,6 @@ public class FileResourcesUtils {
         return new double[0];
     }
 
-
-    private double[] convertToDoubleArray(ArrayList<Double> arrayList) {
-        int size = arrayList.size();
-        double[] doubleArray = new double[size];
-
-        for (int i = 0; i < size; i++) {
-            BigDecimal bigDecimal = BigDecimal.valueOf(arrayList.get(i));
-            doubleArray[i] = bigDecimal.doubleValue();
-        }
-
-        return doubleArray;
-    }
 
     private CSVReader getStrings(String fileName, char separator) {
         ClassLoader classLoader = getClass().getClassLoader();

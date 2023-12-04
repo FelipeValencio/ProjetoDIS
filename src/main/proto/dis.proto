@@ -21,6 +21,14 @@ message ImagemProcessada {
   double interacoes = 7;
 }
 
+message Recursos {
+  double cpu = 1;
+  double memoria = 2;
+}
+
+message EmptyRequest {}
+
 service ProcessamentoImagemService {
   rpc processarImagem(VetorSinal) returns (ImagemProcessada);
+  rpc getRecursos(EmptyRequest) returns (Recursos);
 }
