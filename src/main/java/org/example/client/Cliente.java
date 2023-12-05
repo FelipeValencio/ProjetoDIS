@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 public class Cliente extends Thread{
     public static void main(String[] args) throws InterruptedException {
 
-        final double NUM_THREADS = 100;
+        final double NUM_THREADS = 20;
 
         Cliente cliente = new Cliente();
 
@@ -62,7 +62,7 @@ public class Cliente extends Thread{
 
         double[] vetorSinal;
 
-        vetorSinal = files.importVectorFromCsv("modelo1/A-3.csv", ';');
+        vetorSinal = files.importVectorFromCsv("modelo1/G-1.csv", ';');
 
         vetorSinal = calculaGanhoSinal(vetorSinal, S, N);
 

@@ -38,9 +38,9 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
         }
     }
 
-    private VetorSinal gerenciadorFila(String id) {
+    private VetorSinal gerenciadorFila() {
 
-        while (getCpu() > 10  && getMemory() > 10) {
+        while (getCpu() > 10 || getMemory() > 80) {
             printFormattedQueue();
             try {
                 Thread.sleep(1000);
@@ -58,7 +58,7 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
 
         fifoQueue.offer(request);
 
-        request = gerenciadorFila(request.getIdUsuario());
+        request = gerenciadorFila();
 
         if(request == null) {
             System.out.println("Erro ao processar");
