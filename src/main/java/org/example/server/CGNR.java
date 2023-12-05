@@ -63,7 +63,6 @@ public class CGNR {
 
         int i = 0;
         while (e >= limiteErro) {
-            System.out.println(e);
             // w = H * p[i]
             h.mult(p, w);
 
@@ -109,8 +108,6 @@ public class CGNR {
         }
 
         imagemProcessadaBuilder.setInteracoes(i);
-
-        System.out.println("cabo");
 
         return f;
     }

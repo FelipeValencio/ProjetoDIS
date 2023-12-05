@@ -90,7 +90,6 @@ public class CGNE {
 
         imagemProcessadaBuilder.setInteracoes(i);
 
-        System.out.println("cabo");
         return f;
     }
 

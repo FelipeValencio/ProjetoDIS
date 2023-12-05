@@ -19,11 +19,15 @@ import com.sun.management.OperatingSystemMXBean;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGrpc.ProcessamentoImagemServiceImplBase {
 
     Matrix matrizModelo;
+
+    Queue<VetorSinal> fifoQueue = new LinkedList<>();
 
     public ProcessamentoImagemServiceImpl() {
         FileResourcesUtils files = new FileResourcesUtils();
@@ -34,10 +38,32 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
         }
     }
 
+    private VetorSinal gerenciadorFila(String id) {
+
+        while (getCpu() > 10  && getMemory() > 10) {
+            printFormattedQueue();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return fifoQueue.poll();
+
+    }
+
     @Override
     public void processarImagem(VetorSinal request, StreamObserver<ImagemProcessada> responseObserver) {
 
-        // https://www.geeksforgeeks.org/queue-interface-java/
+        fifoQueue.offer(request);
+
+        request = gerenciadorFila(request.getIdUsuario());
+
+        if(request == null) {
+            System.out.println("Erro ao processar");
+            return;
+        }
 
         try {
             Files.createDirectories(Paths.get("./results"));
@@ -58,7 +84,7 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
         Vector vetorSinal = new DenseVector(doubleArray);
         Vector result;
 
-        System.out.println("Inicio processamento");
+        System.out.println("Inicio processamento "+ request.getIdUsuario());
 
         if(request.getAlgoritmo().equals("CGNR")) {
             result = cgnr.CGNRCalc(vetorSinal, matrizModelo, imagemProcessadaBuilder);
@@ -67,7 +93,7 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
             result = cgne.CGNECalc(vetorSinal, matrizModelo, imagemProcessadaBuilder);
         }
 
-        System.out.println("Final processamento");
+        System.out.println("Final processamento "+ request.getIdUsuario());
 
         final Timestamp ts2 = Timestamp.newBuilder().setSeconds(System.currentTimeMillis() / 1000).build();
         imagemProcessadaBuilder.setTermino(ts2);
@@ -99,32 +125,44 @@ public class ProcessamentoImagemServiceImpl extends ProcessamentoImagemServiceGr
         return doubleList;
     }
 
-    @Override
-    public void getRecursos(EmptyRequest emptyRequest, StreamObserver<Recursos> responseObserver) {
+    public double getCpu() {
         // Get the OperatingSystemMXBean
         OperatingSystemMXBean osBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
+        return osBean.getSystemCpuLoad() * 100;
+    }
+
+    public double getMemory() {
         // Get the MemoryMXBean
         MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
 
-        // CPU Usage
-        double cpuUsage = osBean.getSystemCpuLoad() * 100;
-        System.out.println("CPU Usage: " + cpuUsage + "%");
-
-        // Memory Usage
         MemoryUsage heapMemoryUsage = memoryBean.getHeapMemoryUsage();
         long usedMemory = heapMemoryUsage.getUsed();
         long maxMemory = heapMemoryUsage.getMax();
-        double memoryUsage = (double) usedMemory / maxMemory * 100;
-        System.out.println("Memory Usage: " + memoryUsage + "%");
 
-        Recursos.Builder recursosBuilder = Recursos.newBuilder();
+        return (double) usedMemory / maxMemory * 100;
+    }
 
-        recursosBuilder.setCpu(cpuUsage);
-        recursosBuilder.setMemoria(memoryUsage);
+    private String formatQueue(Queue<VetorSinal> queue, String separator) {
+        StringBuilder formattedQueue = new StringBuilder();
 
-        responseObserver.onNext(recursosBuilder.build());
-        responseObserver.onCompleted();
+        for (VetorSinal item : queue) {
+            formattedQueue.append(item.getIdUsuario()).append(separator);
+        }
+
+        // Remove the trailing separator if the queue is not empty
+        if (!queue.isEmpty()) {
+            formattedQueue.setLength(formattedQueue.length() - separator.length());
+        }
+
+        return formattedQueue.toString();
+    }
+
+    // Example method to print the formatted queue
+    private void printFormattedQueue() {
+        String separator = " - ";
+        String formattedQueue = formatQueue(fifoQueue, separator);
+        System.out.println("Fila: " + formattedQueue);
     }
 
 

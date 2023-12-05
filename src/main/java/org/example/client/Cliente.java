@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 public class Cliente extends Thread{
     public static void main(String[] args) throws InterruptedException {
 
-        final double NUM_THREADS = 10;
+        final double NUM_THREADS = 100;
 
         Cliente cliente = new Cliente();
 
@@ -37,9 +37,9 @@ public class Cliente extends Thread{
     public void run()  {
 
         //Modelo 1
-//        int S = 794;
+        int S = 794;
         //Modelo 2
-        int S = 436;
+//        int S = 436;
         int N = 64;
 
         System.out.println(
@@ -57,15 +57,12 @@ public class Cliente extends Thread{
         ProcessamentoImagemServiceGrpc.ProcessamentoImagemServiceFutureStub stub =
                 ProcessamentoImagemServiceGrpc.newFutureStub(channel);
 
-        ProcessamentoImagemServiceGrpc.ProcessamentoImagemServiceBlockingStub blockingStub
-                = ProcessamentoImagemServiceGrpc.newBlockingStub(channel);
-
         //Instancia objeto para puxar arquivo sinal
         FileResourcesUtils files = new FileResourcesUtils();
 
         double[] vetorSinal;
 
-        vetorSinal = files.importVectorFromCsv("modelo2/g-30x30-1.csv", ';');
+        vetorSinal = files.importVectorFromCsv("modelo1/A-3.csv", ';');
 
         vetorSinal = calculaGanhoSinal(vetorSinal, S, N);
 
@@ -77,31 +74,6 @@ public class Cliente extends Thread{
 
         vetorSinalBuilder.setIdUsuario(Thread.currentThread().getName());
         vetorSinalBuilder.setAlgoritmo("CGNR");
-
-        int tentativa = 1;
-
-        Recursos recursos = blockingStub.getRecursos(EmptyRequest.newBuilder().build());
-        System.out.println( "Current Thread Name: "
-                + Thread.currentThread().getName() + " CPU Usage: " + recursos.getCpu() + "%");
-        System.out.println( "Current Thread Name: "
-                + Thread.currentThread().getName() + " Memory Usage: " + recursos.getMemoria() + "%");
-
-        // Mover para servidor com fila
-        while(recursos.getCpu() > 60 || recursos.getMemoria() > 50) {
-            tentativa++;
-            System.out.println( "Current Thread Name: "
-                    + Thread.currentThread().getName() + " CPU Usage: " + recursos.getCpu() + "%");
-            System.out.println( "Current Thread Name: "
-                    + Thread.currentThread().getName() + " Memory Usage: " + recursos.getMemoria() + "%");
-            System.out.println( "Current Thread Name: "
-                    + Thread.currentThread().getName() + " Tentativa: " + tentativa);
-            try {
-                Thread.sleep(5 * 1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            recursos = blockingStub.getRecursos(EmptyRequest.newBuilder().build());
-        }
 
         ListenableFuture<ImagemProcessada> listenableFuture =
                 stub.processarImagem(vetorSinalBuilder.build());
